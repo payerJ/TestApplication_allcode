@@ -1,16 +1,20 @@
 import { Page, expect } from "@playwright/test";
-import { createBasePage } from "./base.page";
+
 
 // Factory Function für die Startseite (HomePage)
-export function createHomePage(page: Page) {
-  const basePage = createBasePage(page); // Basisfunktionen von BasePage einbinden
-
+export function HomePage(page: Page) {
+ 
   // Locator für die Hauptüberschrift (h1)
   const heading = page.locator("h1");
 
-  return {
-    ...basePage, // Basisfunktionen (z. B. navigateTo) übernehmen
-    page, // Füge die page-Instanz zum zurückgegebenen Objekt hinzu
+
+  // Rückgabe der Methoden
+ return {
+    // Methode zur Navigation (wenn nötig, direkt verwenden)
+    async navigateTo(url: string) {
+      await page.goto(url); // Navigiere zur angegebenen URL
+    },
+
     // Methode zur Überprüfung des Texts der Überschrift
     async verifyHeadingText(expectedText: string) {
       await heading.waitFor(); // Warte, bis die Überschrift geladen ist

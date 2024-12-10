@@ -1,9 +1,8 @@
 import { Page } from '@playwright/test';
-import { createBasePage } from './base.page';
+
 
 // Factory Function für die Login-Seite
 export function createLoginPage(page: Page) {
-  const basePage = createBasePage(page); // Basisfunktionen von BasePage einbinden
 
   // Locators für die Login-Seite
   const usernameInput = page.locator('#username'); // Eingabefeld für den Benutzernamen
@@ -12,9 +11,8 @@ export function createLoginPage(page: Page) {
   const successMessage = page.locator('.success'); // Erfolgsmeldung
   const errorMessage = page.locator('.error'); // Fehlermeldung
 
+  // Rückgabe der Methoden
   return {
-    ...basePage, // Basisfunktionen (z. B. navigateTo) übernehmen
-
     // Methode zum Ausführen des Login-Vorgangs
     async login(username: string, password: string) {
       await usernameInput.fill(username); // Fülle das Feld für den Benutzernamen
@@ -22,10 +20,14 @@ export function createLoginPage(page: Page) {
       await loginButton.click(); // Klicke auf den Login-Button
     },
 
-    // Erfolgsmeldung abrufen
-    getSuccessMessage: () => successMessage,
+    // Methode zum Abrufen der Erfolgsmeldung
+    async getSuccessMessageText(): Promise<string> {
+      return (await successMessage.textContent()) ?? ''; // Gib den Text der Erfolgsmeldung zurück
+    },
 
-    // Fehlermeldung abrufen
-    getErrorMessage: () => errorMessage,
+    // Methode zum Abrufen der Fehlermeldung
+    async getErrorMessageText(): Promise<string> {
+      return (await errorMessage.textContent()) ?? ''; // Gib den Text der Fehlermeldung zurück
+    },
   };
 }

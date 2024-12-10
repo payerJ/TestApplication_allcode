@@ -1,12 +1,14 @@
 import { test, expect } from '@playwright/test';
-import { createUploadPage } from '../pages/upload.page';
+import { createUploadPage } from '../pages/UploadPage';
+import { createBasePage } from "../pages/BasePage";
 
 test.describe('File Upload Tests', () => {
   test('Verify file upload functionality', async ({ page }) => {
     const uploadPage = createUploadPage(page);
+    const basePage =createBasePage(page);
 
     // Navigiere zur Upload-Seite
-    await uploadPage.navigateTo('/upload');
+    await basePage.navigateTo('/upload');
 
     // Lade eine Datei hoch
     const filePath = './test-data/sample-file.pdf'; // Beispielpfad zur Datei
@@ -16,6 +18,6 @@ test.describe('File Upload Tests', () => {
     const confirmationText = await uploadPage.getConfirmationText();
     expect(confirmationText).toContain('File Uploaded!');
       // Navigiere zur Startseite.
-    await uploadPage.navigateTo('/');
+    await basePage.navigateTo('/');
   });
 });
