@@ -1,20 +1,22 @@
-import { Locator, Page, expect } from '@playwright/test';
-import BasePage from './base.page';
+import { Page, expect } from "@playwright/test";
+import { createBasePage } from "./base.page";
 
-// Die HomePage-Klasse erweitert die BasePage und bietet Methoden für die Startseite.
-export default class HomePage extends BasePage {
-  heading: Locator; // Locator für die Hauptüberschrift (h1).
+// Factory Function für die Startseite (HomePage)
+export function createHomePage(page: Page) {
+  const basePage = createBasePage(page); // Basisfunktionen von BasePage einbinden
 
-  constructor(page: Page) {
-    super(page);
-    // Initialisiere den Locator für die Überschrift.
-    this.heading = page.locator('h1');
-  }
+  // Locator für die Hauptüberschrift (h1)
+  const heading = page.locator("h1");
 
-  // Methode zur Überprüfung des Texts der Überschrift.
-  async verifyHeadingText(expectedText: string) {
-    await this.heading.waitFor(); // Warte, bis die Überschrift geladen ist.
-    await this.heading.isVisible(); // Stelle sicher, dass die Überschrift sichtbar ist.
-    expect(await this.heading.textContent()).toContain(expectedText); // Verifiziere den Text der Überschrift.
-  }
+  return {
+    ...basePage, // Basisfunktionen (z. B. navigateTo) übernehmen
+    page, // Füge die page-Instanz zum zurückgegebenen Objekt hinzu
+    // Methode zur Überprüfung des Texts der Überschrift
+    async verifyHeadingText(expectedText: string) {
+      await heading.waitFor(); // Warte, bis die Überschrift geladen ist
+      await heading.isVisible(); // Stelle sicher, dass die Überschrift sichtbar ist
+      const actualText = await heading.textContent(); // Hole den Text der Überschrift
+      expect(actualText).toContain(expectedText); // Verifiziere, dass der Text übereinstimmt
+    },
+  };
 }

@@ -1,27 +1,31 @@
-import { Locator, Page } from '@playwright/test';
-import BasePage from './base.page';
+import { Page } from '@playwright/test';
+import { createBasePage } from './base.page';
 
-// Die LoginPage-Klasse erweitert die BasePage und bietet spezifische Methoden für die Login-Seite.
-export default class LoginPage extends BasePage {
-  usernameInput: Locator; // Locator für das Eingabefeld für den Benutzernamen.
-  passwordInput: Locator; // Locator für das Eingabefeld für das Passwort.
-  loginButton: Locator; // Locator für den Login-Button.
-  successMessage: Locator; // Locator für die Erfolgsmeldung.
+// Factory Function für die Login-Seite
+export function createLoginPage(page: Page) {
+  const basePage = createBasePage(page); // Basisfunktionen von BasePage einbinden
 
-  constructor(page: Page) {
-    super(page);
-    // Initialisiere die Locators für die Elemente auf der Login-Seite.
-    this.usernameInput = page.locator('#username');
-    this.passwordInput = page.locator('#password');
-    this.loginButton = page.locator('button[type="submit"]');
-    this.successMessage = page.locator('.success');
-  }
+  // Locators für die Login-Seite
+  const usernameInput = page.locator('#username'); // Eingabefeld für den Benutzernamen
+  const passwordInput = page.locator('#password'); // Eingabefeld für das Passwort
+  const loginButton = page.locator('button[type="submit"]'); // Login-Button
+  const successMessage = page.locator('.success'); // Erfolgsmeldung
+  const errorMessage = page.locator('.error'); // Fehlermeldung
 
-  // Methode zum Ausführen des Login-Vorgangs.
-  async login(username: string, password: string) {
-    await this.usernameInput.fill(username); // Fülle das Feld für den Benutzernamen.
-    await this.passwordInput.fill(password); // Fülle das Feld für das Passwort.
-    await this.loginButton.click(); // Klicke auf den Login-Button.
-  }
+  return {
+    ...basePage, // Basisfunktionen (z. B. navigateTo) übernehmen
+
+    // Methode zum Ausführen des Login-Vorgangs
+    async login(username: string, password: string) {
+      await usernameInput.fill(username); // Fülle das Feld für den Benutzernamen
+      await passwordInput.fill(password); // Fülle das Feld für das Passwort
+      await loginButton.click(); // Klicke auf den Login-Button
+    },
+
+    // Erfolgsmeldung abrufen
+    getSuccessMessage: () => successMessage,
+
+    // Fehlermeldung abrufen
+    getErrorMessage: () => errorMessage,
+  };
 }
-

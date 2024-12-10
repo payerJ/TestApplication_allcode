@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test';
-import HomePage from '../pages/home.page';
+import { createHomePage } from '../pages/home.page';
 
 // Testgruppe für die Startseite.
 test.describe('Home Page Tests', () => {
   // Test: Überprüfe die Überschrift auf der Startseite.
   test('Verify homepage heading', async ({ page }) => {
-    const homePage = new HomePage(page);
+    const homePage = createHomePage(page);
 
     // Navigiere zur Startseite.
     await homePage.navigateTo('/');
@@ -14,7 +14,7 @@ test.describe('Home Page Tests', () => {
 
   // Test: Überprüfe, ob die Navigationslinks sichtbar sind.
   test('Verify navigation links are visible', async ({ page }) => {
-    const homePage = new HomePage(page);
+    const homePage = createHomePage(page);
 
     // Navigiere zur Startseite.
     await homePage.navigateTo('/');
