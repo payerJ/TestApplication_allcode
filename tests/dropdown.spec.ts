@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { DropdownPage } from '../pages/DropdownPage';
+import { DropdownPage } from '@pages/DropdownPage';
 
 // Testgruppe für das Dropdown-Menü.
 test.describe('Dropdown Menu Tests', () => {
@@ -8,7 +8,7 @@ test.describe('Dropdown Menu Tests', () => {
   // Vor jedem Test: Initialisiere die DropdownPage und navigiere zur Seite.
   test.beforeEach(async ({ page }) => {
     dropdownPage = DropdownPage(page); // Erstelle eine Instanz mit der Factory Function
-    await page.goto('/dropdown'); // Navigiere zur Dropdown-Seite.
+    await page.goto('/dropdown'); // Navigiere zur Dropdown-Seite über die playwright funktion page.goto
     await expect(page.locator('#dropdown')).toBeVisible(); // Stelle sicher, dass das Dropdown sichtbar ist.
   });
 
@@ -28,6 +28,7 @@ test.describe('Dropdown Menu Tests', () => {
   // Nach jedem Test: Kehre zur Homepage zurück.
   test.afterEach(async ({ page }) => {
        await page.goto('/');
+       await page.screenshot;
  // Navigiere zur Homepage.
   });
 });

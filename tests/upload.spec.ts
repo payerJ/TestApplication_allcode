@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { createUploadPage } from '../pages/UploadPage';
-import { createBasePage } from "../pages/BasePage";
+import { createBasePage } from "@pages/BasePage";
 
 test.describe('File Upload Tests', () => {
   test('Verify file upload functionality', async ({ page }) => {

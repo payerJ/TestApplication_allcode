@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { DownloadPage } from '../pages/DownloadPage';
+import { DownloadPage } from '@pages/DownloadPage';
 
 // Testgruppe für die Dateidownload-Funktionalität.
 test.describe('File Download Tests', () => {

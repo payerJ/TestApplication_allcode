@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { HomePage } from '../pages/HomePage';
+import { HomePage } from '@pages/HomePage';
 
 // Testgruppe für die Startseite.
 test.describe('Home Page Tests', () => {

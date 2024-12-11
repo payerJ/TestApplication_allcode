@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { createLoginPage } from "../pages/LoginPage";
-import { createBasePage } from "../pages/BasePage";
+import { createBasePage } from "@pages/BasePage";
 // Testgruppe für die Login-Seite.
 test.describe("Login Tests", () => {
   // Test: Überprüfe einen erfolgreichen Login.
